@@ -5,15 +5,23 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "host": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.0.9",
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
+    "react-calendar": "^5.1.0",
+    "react-date-picker": "^11.0.0",
     "react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.9"
+    "react-swipeable-list": "^1.10.0",
+    "tailwindcss": "^4.0.9",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

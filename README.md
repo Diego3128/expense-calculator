@@ -17,6 +17,8 @@ Check out the live demo: [Expense Calculator]()
 - **React hooks** useState, useEffect, useReducer, ContextApi.
 - **Tailwind CSS** for styling.
 - **Heroicons** for icons.
+- **HeadlessUi** for functional components.
+- **react-calendar and React-Date-Picker** for dates.
 - **LocalStorage API** for data persistence.
 
 ## 📂 Project Structure

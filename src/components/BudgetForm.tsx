@@ -1,9 +1,14 @@
-import { ChangeEvent, KeyboardEvent, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  KeyboardEvent,
+  useMemo,
+  useState,
+} from "react";
 import { useBudget } from "../hooks/useBudget";
 
 export default function BudgetForm() {
-
-  // const {budgetState, budgetDispatch} = useBudget()
+  const { budgetDispatch } = useBudget();
 
   const [budget, setBudget] = useState<number | string>("");
 
@@ -18,16 +23,23 @@ export default function BudgetForm() {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) =>
     e.key === "e" || e.key === "E" ? e.preventDefault() : "";
-  
-  // validate budget (must be a number)
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validBudget) return;
+    budgetDispatch({ type: "define-budget", payload: { budget: +budget } });
+  };
+  // validate budget (must be numeric)
   const validBudget = useMemo(
     () => typeof budget === "number" && budget > 0,
     [budget]
   );
 
-
   return (
-    <form className="space-y-7 bg-white shadow-lg rounded-lg mx-auto py-8 px-5">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-7 bg-white shadow-lg rounded-lg mx-auto py-8 px-8 md:px-5"
+    >
       <div className="flex flex-col space-y-5">
         <label
           htmlFor="budget"
