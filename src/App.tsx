@@ -4,6 +4,7 @@ import { useBudget } from "./hooks/useBudget";
 import BudgetTracker from "./components/BudgetTracker";
 import ExpenseModal from "./components/ExpenseModal";
 import ExpenseList from "./components/ExpenseList";
+import FilterByCategory from "./components/FilterByCategory";
 
 export default function App() {
   const { budgetState } = useBudget();
@@ -25,6 +26,7 @@ export default function App() {
       <main className="max-w-3xl mx-auto p-10 mb-20">
         {isBudgetSet ? (
           <>
+            <FilterByCategory />
             <ExpenseModal />
             <ExpenseList />
           </>

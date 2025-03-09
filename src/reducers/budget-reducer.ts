@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
-import type { DraftExpense, Expense } from "../types";
+import type { Category, DraftExpense, Expense } from "../types";
+import { categories } from "../data/expense-categories";
 
 export type BudgetActions =
   | {
@@ -28,6 +29,13 @@ export type BudgetActions =
   | {
       type: "update-expense";
       payload: { expense: Expense };
+    }
+  | {
+      type: "reset-app";
+    }
+  | {
+      type: "set-category-filter";
+      payload: { categoryId: Category["id"] };
     };
 
 export type BudgetStateType = {
@@ -35,8 +43,9 @@ export type BudgetStateType = {
   openModal: boolean;
   expenses: Expense[];
   editingId: Expense["id"];
+  categoryFilter: Category["id"];
+  filteredExpenses: Expense[];
 };
-
 
 const getStoredBudget = (): number => {
   const budget = localStorage.getItem("budget");
@@ -52,6 +61,8 @@ export const budgetInitialState: BudgetStateType = {
   openModal: false,
   expenses: getStoredExpenses(),
   editingId: "",
+  categoryFilter: "",
+  filteredExpenses: [],
 };
 
 export const budgetReducer = (
@@ -120,6 +131,33 @@ export const budgetReducer = (
         expenses: updatedExpenses,
         editingId: "",
         openModal: false,
+      };
+    }
+
+    case "reset-app": {
+      return {
+        ...state,
+        budget: 0,
+        expenses: [],
+      };
+    }
+
+    case "set-category-filter": {
+      let filteredExpenses: Expense[] = [];
+      const category = categories.find(
+        (category) => category.id === action.payload.categoryId
+      );
+
+      if (category) {
+        filteredExpenses = state.expenses.filter(
+          (expense) => expense.expenseCategoryId === category.id
+        );
+      }
+
+      return {
+        ...state,
+        categoryFilter: category ? category.id : "",
+        filteredExpenses,
       };
     }
 

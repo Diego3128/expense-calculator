@@ -40,11 +40,16 @@ export function BudgetProvider({ children }: BudgetProviderProps) {
   }, [budgetState]);
 
   const spentBudget = useMemo(() => {
-    return budgetState.expenses.reduce(
-      (accumulator, expense) => accumulator + +expense.expenseAmount,
-      0
-    );
-  }, [budgetState.expenses, budgetState.budget]);
+     return budgetState.categoryFilter == ""
+      ? budgetState.expenses.reduce(
+          (accumulator, expense) => accumulator + +expense.expenseAmount,
+          0
+        )
+      : budgetState.filteredExpenses.reduce(
+          (accumulator, expense) => accumulator + +expense.expenseAmount,
+          0
+        );
+  }, [budgetState.expenses, budgetState.budget, budgetState.filteredExpenses]);
 
   const availableBudget = useMemo(
     () => budgetState.budget - spentBudget,

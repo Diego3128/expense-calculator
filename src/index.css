@@ -3,7 +3,7 @@
 /*** SWIPE LIST OVERRIDES **/
 .swipeable-list-item__leading-actions, 
 .swipeable-list-item__trailing-actions {
-  @apply text-white text-lg uppercase font-bold -z-10 max-h-[93%] shadow-lg;
+  @apply text-white text-lg uppercase font-bold z-10 max-h-[96%] shadow-lg rounded-lg;
 }
 .swipeable-list-item__leading-actions{
   @apply bg-blue-600;

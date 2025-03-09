@@ -40,7 +40,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
           })
         }
       >
-        <PencilSquareIcon className="size-15"/>
+        <PencilSquareIcon className="size-8 md:size-11"/>
       </SwipeAction>
     </LeadingActions>
   );
@@ -56,7 +56,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
           })
         }
       >
-        <TrashIcon className="size-15"/>
+        <TrashIcon className="size-8 md:size-11"/>
       </SwipeAction>
     </TrailingActions>
   );
@@ -68,7 +68,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
         trailingActions={trailingActions()}
         maxSwipe={0.51}
       >
-        <div className="bg-white shadow-lg w-full p-5 md:p-10 border-b border-gray-200 mb-1.5 flex justify-between items-center   gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing">
+        <div className="bg-white hover:opacity-80 shadow-lg w-full p-5 md:p-10 border-b border-gray-200 mb-1.5 flex justify-between items-center   gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing rounded-lg">
           <div>
             <img
               className="w-16"

@@ -5,7 +5,10 @@ import { useBudget } from "../hooks/useBudget";
 import ExpenseForm from "./ExpenseForm";
 
 export default function ExpenseModal() {
-  const { budgetState, budgetDispatch } = useBudget();
+  const {
+    budgetState: { openModal },
+    budgetDispatch,
+  } = useBudget();
 
   return (
     <>
@@ -15,11 +18,15 @@ export default function ExpenseModal() {
           className="cursor-pointer"
           onClick={() => budgetDispatch({ type: "show-modal" })}
         >
-          <PlusCircleIcon className="size-15 text-white rounded-full bg-blue-600 shadow-lg" />
+          {!openModal ? (
+            <PlusCircleIcon className="size-15 text-white rounded-full bg-blue-600 shadow-lg" />
+          ) : (
+            ""
+          )}
         </button>
       </div>
 
-      <Transition appear show={budgetState.openModal} as={Fragment}>
+      <Transition appear show={openModal} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
