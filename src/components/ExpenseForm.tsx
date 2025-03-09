@@ -9,7 +9,11 @@ import ErrorMessage from "./ErrorMessage";
 import { useBudget } from "../hooks/useBudget";
 
 export default function ExpenseForm() {
-  const { budgetState, budgetDispatch } = useBudget();
+  const {
+    budgetState,
+    budgetDispatch,
+    budgetStats: { availableBudget },
+  } = useBudget();
 
   const EXPENSE_DEFAULT_VALUE: DraftExpense = {
     expenseName: "",
@@ -20,6 +24,9 @@ export default function ExpenseForm() {
 
   const [expense, setExpense] = useState<DraftExpense>(EXPENSE_DEFAULT_VALUE);
 
+  // editingAmount is taking into account when checking if therés enough budget to update the expense
+  const [editingAmount, setEditingAmount] = useState(0);
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -28,6 +35,7 @@ export default function ExpenseForm() {
         (currentExpense) => currentExpense.id === budgetState.editingId
       )[0];
       setExpense(editingExpense);
+      setEditingAmount(+editingExpense.expenseAmount);
     }
   }, [budgetState.editingId]);
 
@@ -65,7 +73,12 @@ export default function ExpenseForm() {
       Object.values(expense).includes("0") ||
       Object.values(expense).includes(null)
     ) {
-      setError("all fields are required");
+      setError("all fields are required.");
+      return;
+    }
+    // check if there's enough budget before addingor editing an expense
+    if(+expense.expenseAmount > (availableBudget + editingAmount)){
+      setError("There isn't enough money for this expense.");
       return;
     }
     // create new expense or update
@@ -79,6 +92,7 @@ export default function ExpenseForm() {
     }
     setError("");
     setExpense(EXPENSE_DEFAULT_VALUE);
+    setEditingAmount(0);
   };
 
   return (

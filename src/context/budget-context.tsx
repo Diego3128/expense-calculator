@@ -1,4 +1,12 @@
-import { JSX, useReducer, createContext, Dispatch, useEffect } from "react";
+import {
+  JSX,
+  useReducer,
+  createContext,
+  Dispatch,
+  useEffect,
+  useMemo,
+} from "react";
+
 import {
   budgetReducer,
   budgetInitialState,
@@ -13,6 +21,7 @@ type BudgetProviderProps = {
 type BudgetContextProps = {
   budgetState: BudgetStateType;
   budgetDispatch: Dispatch<BudgetActions>;
+  budgetStats: { spentBudget: number; availableBudget: number };
 };
 
 export const BudgetContext = createContext<BudgetContextProps>(
@@ -30,8 +39,26 @@ export function BudgetProvider({ children }: BudgetProviderProps) {
     localStorage.setItem("budget", budgetState.budget.toString());
   }, [budgetState]);
 
+  const spentBudget = useMemo(() => {
+    return budgetState.expenses.reduce(
+      (accumulator, expense) => accumulator + +expense.expenseAmount,
+      0
+    );
+  }, [budgetState.expenses, budgetState.budget]);
+
+  const availableBudget = useMemo(
+    () => budgetState.budget - spentBudget,
+    [budgetState.expenses, budgetState.budget]
+  );
+
   return (
-    <BudgetContext.Provider value={{ budgetState, budgetDispatch }}>
+    <BudgetContext.Provider
+      value={{
+        budgetState,
+        budgetDispatch,
+        budgetStats: { spentBudget, availableBudget },
+      }}
+    >
       {children}
     </BudgetContext.Provider>
   );

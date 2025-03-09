@@ -2,9 +2,11 @@ import { useBudget } from "../hooks/useBudget";
 import AmountDisplay from "./AmountDisplay";
 
 export default function BudgetTracker() {
+  const {
+    budgetState,
+    budgetStats: { spentBudget, availableBudget },
+  } = useBudget();
 
-  const {budgetState} = useBudget();
-  
   return (
     <div className="px-8 md:px-10 py-10 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 space-y-7 bg-white shadow-lg rounded-lg mx-auto ">
       <div className="flex justify-center items-center">
@@ -21,10 +23,9 @@ export default function BudgetTracker() {
 
         <AmountDisplay label="budget" amount={budgetState.budget} />
 
-        <AmountDisplay label="spent" amount={200} />
+        <AmountDisplay label="spent" amount={spentBudget} />
 
-        <AmountDisplay label="available" amount={200} />
-
+        <AmountDisplay label="available" amount={availableBudget} />
       </div>
     </div>
   );

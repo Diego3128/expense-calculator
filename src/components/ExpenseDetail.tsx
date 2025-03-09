@@ -68,7 +68,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
         trailingActions={trailingActions()}
         maxSwipe={0.51}
       >
-        <div className="bg-white shadow-lg w-full p-7 md:p-10 border-b border-gray-200 mb-2.5 flex justify-between items-center   gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing">
+        <div className="bg-white shadow-lg w-full p-5 md:p-10 border-b border-gray-200 mb-1.5 flex justify-between items-center   gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing">
           <div>
             <img
               className="w-16"
