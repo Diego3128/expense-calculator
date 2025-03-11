@@ -33,7 +33,6 @@ export default function BudgetTracker() {
             trailColor: "#d3d8e0",
           })}
         />
-        ;
       </div>
 
       <div className="flex flex-col gap-8 items-center justify-around ">

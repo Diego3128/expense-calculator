@@ -4,6 +4,13 @@ export type Category = {
   icon: string;
 };
 
+export type CategoryStat = {
+  categoryId: Category["id"];
+  total: number;
+  percentage: number;
+  numExpenses: number
+};
+
 // react-date-picker types:
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -12,7 +19,7 @@ export type Value = ValuePiece | [ValuePiece, ValuePiece];
 export type Expense = {
   id: string;
   expenseName: string;
-  expenseAmount: number | ''; // '' allows deleting the whole input in ExpenseForm.tsx
+  expenseAmount: number | ""; // '' allows deleting the whole input in ExpenseForm.tsx
   expenseDate: Value;
   expenseCategoryId: Category["id"];
 };

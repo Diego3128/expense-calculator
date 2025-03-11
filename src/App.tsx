@@ -5,6 +5,7 @@ import BudgetTracker from "./components/BudgetTracker";
 import ExpenseModal from "./components/ExpenseModal";
 import ExpenseList from "./components/ExpenseList";
 import FilterByCategory from "./components/FilterByCategory";
+import CategoryStats from "./components/CategoryStats";
 
 export default function App() {
   const { budgetState } = useBudget();
@@ -19,16 +20,25 @@ export default function App() {
         </h1>
       </header>
 
-      <div className="max-w-lg md:max-w-2xl mx-auto  mt-12 px-3">
-        {!isBudgetSet ? <BudgetForm /> : <BudgetTracker />}
+      <div className="max-w-lg  lg:max-w-6xl mx-auto  mt-12 px-3">
+        {!isBudgetSet ? (
+          <BudgetForm />
+        ) : (
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <BudgetTracker />
+            <CategoryStats />
+          </div>
+        )}
       </div>
 
       <main className="max-w-3xl mx-auto p-10 mb-20">
         {isBudgetSet ? (
           <>
+          <div>
             <FilterByCategory />
-            <ExpenseModal />
             <ExpenseList />
+          </div>
+            <ExpenseModal />
           </>
         ) : (
           ""

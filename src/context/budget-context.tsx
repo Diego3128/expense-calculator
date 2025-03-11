@@ -13,6 +13,9 @@ import {
   type BudgetStateType,
   type BudgetActions,
 } from "../reducers/budget-reducer";
+import { categories } from "../data/expense-categories";
+import { CategoryStat } from "../types";
+import { calcExpenseTotal, calcPercentage } from "../helpers";
 
 type BudgetProviderProps = {
   children: JSX.Element | JSX.Element[];
@@ -21,7 +24,11 @@ type BudgetProviderProps = {
 type BudgetContextProps = {
   budgetState: BudgetStateType;
   budgetDispatch: Dispatch<BudgetActions>;
-  budgetStats: { spentBudget: number; availableBudget: number };
+  budgetStats: {
+    spentBudget: number;
+    availableBudget: number;
+    categoryStats: CategoryStat[];
+  };
 };
 
 export const BudgetContext = createContext<BudgetContextProps>(
@@ -40,7 +47,7 @@ export function BudgetProvider({ children }: BudgetProviderProps) {
     localStorage.setItem("budget", budgetState.budget.toString());
   }, [budgetState]);
 
-  // shows general budget to do: budget or by category
+  // shows general budget
   const spentBudget = useMemo(() => {
     return budgetState.expenses.reduce(
       (accumulator, expense) => accumulator + +expense.expenseAmount,
@@ -53,12 +60,33 @@ export function BudgetProvider({ children }: BudgetProviderProps) {
     [budgetState.expenses, budgetState.budget]
   );
 
+  // stats for each category
+  const categoryStats: CategoryStat[] = useMemo(() => {
+    return categories.map((category) => {
+      const categoryExpenses = budgetState.expenses.filter(
+        (expense) => expense.expenseCategoryId === category.id
+      );
+
+      const total = calcExpenseTotal(categoryExpenses);
+      const percentage = calcPercentage(total, budgetState.budget || 1);
+
+      const categoryStat: CategoryStat = {
+        categoryId: category.id,
+        total,
+        percentage,
+        numExpenses: categoryExpenses.length,
+      };
+
+      return categoryStat;
+    });
+  }, [budgetState.expenses, categories]);
+
   return (
     <BudgetContext.Provider
       value={{
         budgetState,
         budgetDispatch,
-        budgetStats: { spentBudget, availableBudget },
+        budgetStats: { spentBudget, availableBudget, categoryStats },
       }}
     >
       {children}
