@@ -1,20 +1,22 @@
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
+import { PencilIcon } from "@heroicons/react/24/solid";
+
 import { useBudget } from "../hooks/useBudget";
 import AmountDisplay from "./AmountDisplay";
 import { useMemo } from "react";
 
 export default function BudgetTracker() {
   const {
-    budgetState: { budget, expenses, filteredExpenses },
+    budgetState: { budget, expenses },
     budgetStats: { spentBudget, availableBudget },
     budgetDispatch,
   } = useBudget();
 
   const percentage = useMemo(
     () => +((spentBudget / budget) * 100).toFixed(1),
-    [budget, expenses, filteredExpenses]
+    [budget, expenses]
   );
 
   return (
@@ -35,13 +37,27 @@ export default function BudgetTracker() {
       </div>
 
       <div className="flex flex-col gap-8 items-center justify-around ">
-        <button
-          onClick={() => budgetDispatch({ type: "reset-app" })}
-          type="button"
-          className="bg-pink-600 w-full p-2.5 text-xl text-white capitalize text-center font-bold rounded-lg hover:bg-pink-700  cursor-pointer"
-        >
-          Reset App
-        </button>
+        <div className="flex justify-between gap-3.5">
+          <button
+            onClick={() => budgetDispatch({ type: "reset-app" })}
+            type="button"
+            className="bg-pink-600 w-full p-2.5 text-white capitalize text-center font-bold rounded-lg hover:bg-pink-700  cursor-pointer"
+          >
+            Reset App
+          </button>
+          <button
+            onClick={() =>
+              budgetDispatch({
+                type: "update-budget",
+                payload: { previousBudget: budget },
+              })
+            }
+            className="flex justify-around gap-1.5 items-center rounded-lg border-2 border-blue-500 p-2 hover:bg-blue-200 hover:cursor-pointer"
+          >
+            <span className="font-bold">Edit budget</span>
+            <PencilIcon className="size-8 md:size-10 text-blue-500" />
+          </button>
+        </div>
 
         <AmountDisplay label="budget" amount={budget} />
 

@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
 import type { Category, DraftExpense, Expense } from "../types";
-import { categories } from "../data/expense-categories";
 
 export type BudgetActions =
   | {
@@ -36,15 +35,19 @@ export type BudgetActions =
   | {
       type: "set-category-filter";
       payload: { categoryId: Category["id"] };
+    }
+  | {
+      type: "update-budget";
+      payload: { previousBudget: number };
     };
 
 export type BudgetStateType = {
   budget: number;
+  previousBudget: number | "";
   openModal: boolean;
   expenses: Expense[];
   editingId: Expense["id"];
   categoryFilter: Category["id"];
-  filteredExpenses: Expense[];
 };
 
 const getStoredBudget = (): number => {
@@ -58,11 +61,11 @@ const getStoredExpenses = (): Expense[] => {
 
 export const budgetInitialState: BudgetStateType = {
   budget: getStoredBudget(),
+  previousBudget: "",
   openModal: false,
   expenses: getStoredExpenses(),
   editingId: "",
   categoryFilter: "",
-  filteredExpenses: [],
 };
 
 export const budgetReducer = (
@@ -74,6 +77,7 @@ export const budgetReducer = (
       return {
         ...state,
         budget: action.payload.budget,
+        previousBudget: "",
       };
     }
     case "show-modal": {
@@ -143,21 +147,17 @@ export const budgetReducer = (
     }
 
     case "set-category-filter": {
-      let filteredExpenses: Expense[] = [];
-      const category = categories.find(
-        (category) => category.id === action.payload.categoryId
-      );
-
-      if (category) {
-        filteredExpenses = state.expenses.filter(
-          (expense) => expense.expenseCategoryId === category.id
-        );
-      }
-
       return {
         ...state,
-        categoryFilter: category ? category.id : "",
-        filteredExpenses,
+        categoryFilter: action.payload.categoryId,
+      };
+    }
+
+    case "update-budget": {
+      return {
+        ...state,
+        budget: 0,
+        previousBudget: action.payload.previousBudget,
       };
     }
 

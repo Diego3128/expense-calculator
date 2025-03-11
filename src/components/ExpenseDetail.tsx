@@ -66,7 +66,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
       <SwipeableListItem
         leadingActions={leadingActions()}
         trailingActions={trailingActions()}
-        maxSwipe={0.51}
+        maxSwipe={0.6}
       >
         <div className="bg-white hover:opacity-80 shadow-lg w-full p-5 md:p-10 border-b border-gray-200 mb-1.5 flex justify-between items-center   gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing rounded-lg">
           <div>

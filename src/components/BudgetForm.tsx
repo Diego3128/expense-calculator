@@ -6,11 +6,18 @@ import {
   useState,
 } from "react";
 import { useBudget } from "../hooks/useBudget";
+import ErrorMessage from "./ErrorMessage";
 
 export default function BudgetForm() {
-  const { budgetDispatch } = useBudget();
+  const {
+    budgetDispatch,
+    budgetState: { previousBudget, expenses },
+    budgetStats: { spentBudget },
+  } = useBudget();
 
   const [budget, setBudget] = useState<number | string>("");
+
+  const [error, setError] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // allow an empty string
@@ -27,6 +34,16 @@ export default function BudgetForm() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validBudget) return;
+
+    // (edit budget) if there are expenses, the new budget should not be greated than the spentBudget
+    if (expenses.length > 0 && +budget < spentBudget) {
+      setError(
+        "New budget must be larger than the current spent budget: $" +
+          spentBudget
+      );
+      return;
+    }
+
     budgetDispatch({ type: "define-budget", payload: { budget: +budget } });
   };
   // validate budget (must be numeric)
@@ -40,6 +57,8 @@ export default function BudgetForm() {
       onSubmit={handleSubmit}
       className="space-y-7 bg-white shadow-lg rounded-lg mx-auto py-8 px-8 md:px-5"
     >
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+
       <div className="flex flex-col space-y-5">
         <label
           htmlFor="budget"
@@ -51,7 +70,11 @@ export default function BudgetForm() {
           id="budget"
           type="number"
           className="w-full border border-gray-200  py-2.5 px-2 bg-white rounded-lg  capitalize"
-          placeholder="define your budget"
+          placeholder={
+            previousBudget
+              ? "Current budget: $" + previousBudget.toString()
+              : "Define your budget"
+          }
           value={budget}
           onChange={handleChange}
           onKeyDown={handleKeyDown}

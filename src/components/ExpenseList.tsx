@@ -5,18 +5,30 @@ import ExpenseDetail from "./ExpenseDetail";
 export default function ExpenseList() {
   const { budgetState } = useBudget();
 
-  const categoryFilter = useMemo(
+  const existsCategoryFilter = useMemo(
     () => budgetState.categoryFilter !== "",
     [budgetState.categoryFilter]
   );
 
-  const emptyExpenses = useMemo(
-    () =>
-      categoryFilter
-        ? budgetState.filteredExpenses.length < 1
-        : budgetState.expenses.length < 1,
-    [budgetState.expenses, budgetState.filteredExpenses]
+  // array of filtered expenses
+  const filterdExpenses = useMemo(() => {
+    return existsCategoryFilter
+      ? budgetState.expenses.filter(
+          (expense) => expense.expenseCategoryId === budgetState.categoryFilter
+        )
+      : [];
+  }, [budgetState.categoryFilter, budgetState.expenses]);
+
+  const activeExpenses = useMemo(
+    () => (existsCategoryFilter ? filterdExpenses : budgetState.expenses),
+    [existsCategoryFilter, budgetState.expenses, filterdExpenses]
   );
+
+    // activeExpenses empty?
+    const emptyExpenses = useMemo(
+      () => activeExpenses.length < 1,
+      [activeExpenses]
+    );
 
   return (
     <div className="mt-10">
@@ -30,13 +42,9 @@ export default function ExpenseList() {
             expense list
           </p>
           <div className="bg-gray-100 p-10 px-3.5 md:px-5 rounded-lg shadow-xl max-h-[600px] overflow-y-auto">
-            {categoryFilter
-              ? budgetState.filteredExpenses.map((expense) => (
-                  <ExpenseDetail key={expense.id} expense={expense} />
-                ))
-              : budgetState.expenses.map((expense) => (
-                  <ExpenseDetail key={expense.id} expense={expense} />
-                ))}
+            {activeExpenses.map((expense) => (
+              <ExpenseDetail key={expense.id} expense={expense} />
+            ))}
           </div>
         </>
       )}

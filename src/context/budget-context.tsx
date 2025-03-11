@@ -34,22 +34,19 @@ export function BudgetProvider({ children }: BudgetProviderProps) {
     budgetInitialState
   );
 
+  // sync changes to the localstorage
   useEffect(() => {
     localStorage.setItem("expenses", JSON.stringify(budgetState.expenses));
     localStorage.setItem("budget", budgetState.budget.toString());
   }, [budgetState]);
 
+  // shows general budget to do: budget or by category
   const spentBudget = useMemo(() => {
-     return budgetState.categoryFilter == ""
-      ? budgetState.expenses.reduce(
-          (accumulator, expense) => accumulator + +expense.expenseAmount,
-          0
-        )
-      : budgetState.filteredExpenses.reduce(
-          (accumulator, expense) => accumulator + +expense.expenseAmount,
-          0
-        );
-  }, [budgetState.expenses, budgetState.budget, budgetState.filteredExpenses]);
+    return budgetState.expenses.reduce(
+      (accumulator, expense) => accumulator + +expense.expenseAmount,
+      0
+    );
+  }, [budgetState.expenses, budgetState.budget]);
 
   const availableBudget = useMemo(
     () => budgetState.budget - spentBudget,
