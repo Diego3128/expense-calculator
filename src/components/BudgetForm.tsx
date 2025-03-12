@@ -55,36 +55,41 @@ export default function BudgetForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-7 bg-white shadow-lg rounded-lg mx-auto py-8 px-8 md:px-5"
+      className="space-y-8 bg-gray-800 shadow-xl rounded-xl mx-auto py-10 px-8 md:px-10 border border-gray-700 transition-all duration-300"
     >
       {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      <div className="flex flex-col space-y-5">
+      <div className="flex flex-col space-y-6">
         <label
           htmlFor="budget"
-          className="text-3xl text-blue-500 font-bold text-center"
+          className="text-3xl text-indigo-400 font-bold text-center tracking-wide"
         >
           Your budget
         </label>
-        <input
-          id="budget"
-          type="number"
-          className="w-full border border-gray-200  py-2.5 px-2 bg-white rounded-lg  capitalize"
-          placeholder={
-            previousBudget
-              ? "Current budget: $" + previousBudget.toString()
-              : "Define your budget"
-          }
-          value={budget}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
+        <div className="relative group">
+          <input
+            id="budget"
+            type="number"
+            className="w-full border border-gray-700 py-4 px-4 bg-gray-900 rounded-lg capitalize text-gray-100 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300 text-left"
+            placeholder={
+              previousBudget
+                ? "Current budget: $" + previousBudget.toString()
+                : "Define your budget"
+            }
+            value={budget}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          />
+          <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+            <span className="text-gray-400">$</span>
+          </div>
+        </div>
       </div>
 
       <button
         disabled={!validBudget}
         type="submit"
-        className="bg-blue-500 hover:bg-blue-700 p-2.5 uppercase font-black text-white w-3/5 md:w-1/2 mx-auto block disabled:opacity-50 disabled:cursor-none cursor-pointer rounded-lg"
+        className="bg-indigo-600 hover:bg-indigo-700 p-4 uppercase font-black text-white w-full md:w-2/3 mx-auto block disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg"
       >
         Set Budget
       </button>

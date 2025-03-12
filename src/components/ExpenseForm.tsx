@@ -77,7 +77,7 @@ export default function ExpenseForm() {
       return;
     }
     // check if there's enough budget before addingor editing an expense
-    if(+expense.expenseAmount > (availableBudget + editingAmount)){
+    if (+expense.expenseAmount > availableBudget + editingAmount) {
       setError("There isn't enough money for this expense.");
       return;
     }
@@ -96,56 +96,72 @@ export default function ExpenseForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" action="">
-      <legend className="uppercase text-2xl text-center border-b-4 font-black py-2 border-blue-500 ">
-        {`${budgetState.editingId ? "edit" : "create"} expense`}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Title */}
+      <legend className="uppercase text-2xl text-center border-b-4 font-black py-2 border-blue-500 text-white">
+        {`${budgetState.editingId ? "Edit" : "Create"} Expense`}
       </legend>
+
+      {/* Error Message */}
       {error && <ErrorMessage>{error}</ErrorMessage>}
+
+      {/* Expense Name */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="expenseName" className="text-xl capitalize">
-          name
+        <label
+          htmlFor="expenseName"
+          className="text-xl capitalize text-gray-300"
+        >
+          Name
         </label>
         <input
           onChange={handleChange}
           value={expense.expenseName}
           id="expenseName"
-          placeholder="expense name"
-          className="bg-slate-100 p-2 capitalize outline-none border-b focus:bg-blue-100 border-blue-400"
+          placeholder="Expense name"
+          className="bg-[#38384f] p-2 capitalize outline-none border-b focus:bg-gray-900 border-blue-400 text-white"
           type="text"
           name="expenseName"
         />
       </div>
 
+      {/* Amount */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="expenseAmount" className="text-xl capitalize">
-          amount
+        <label
+          htmlFor="expenseAmount"
+          className="text-xl capitalize text-gray-300"
+        >
+          Amount
         </label>
         <input
           value={expense.expenseAmount}
           onChange={handleChange}
           id="expenseAmount"
           placeholder="e.g: 120"
-          className="bg-slate-100 p-2 capitalize outline-none border-b focus:bg-blue-100 border-blue-400"
+          className="bg-[#38384f] p-2 capitalize outline-none border-b focus:bg-gray-900 border-blue-400 text-white"
           type="number"
           name="expenseAmount"
           step="100"
         />
       </div>
 
+      {/* Category */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="expenseCategoryId" className="text-xl capitalize">
-          category
+        <label
+          htmlFor="expenseCategoryId"
+          className="text-xl capitalize text-gray-300"
+        >
+          Category
         </label>
 
         <select
           name="expenseCategoryId"
           id="expenseCategoryId"
-          className="p-2.5 bg-slate-100 capitalize outline-none border-b focus:bg-blue-100 border-blue-400"
+          className="p-2.5 bg-[#38384f] capitalize outline-none border-b focus:bg-gray-900 border-blue-400 text-white"
           onChange={handleChange}
           value={expense.expenseCategoryId}
         >
           <option className="text-center capitalize" disabled value="0">
-            --- choose a category ---
+            --- Choose a category ---
           </option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -155,21 +171,23 @@ export default function ExpenseForm() {
         </select>
       </div>
 
+      {/* Date Picker */}
       <div className="flex flex-col gap-2">
-        <label className="text-xl capitalize">date</label>
+        <label className="text-xl capitalize text-gray-300">Date</label>
 
         <DatePicker
           onChange={handleChangeDate}
           value={expense.expenseDate}
-          className="bg-slate-100 p-2 capitalize outline-none border-b focus:bg-blue-100 border-blue-400"
+          className="bg-[#38384f] p-2 capitalize outline-none border-b focus:bg-gray-900 border-blue-400"
         />
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
-        className="my-6 text-white  bg-blue-600 hover:bg-blue-700 cursor-pointer w-full p-3 uppercase font-bold rounded-lg"
+        className="my-6 text-white bg-blue-600 hover:bg-blue-700 cursor-pointer w-full p-3 uppercase font-bold rounded-lg"
       >
-        {`${budgetState.editingId ? "save changes" : "create expense"}`}
+        {`${budgetState.editingId ? "Save Changes" : "Create Expense"}`}
       </button>
     </form>
   );

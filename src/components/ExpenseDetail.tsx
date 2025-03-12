@@ -40,7 +40,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
           })
         }
       >
-        <PencilSquareIcon className="size-8 md:size-11"/>
+        <PencilSquareIcon className="size-8 md:size-11 text-gray-200" />
       </SwipeAction>
     </LeadingActions>
   );
@@ -56,19 +56,19 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
           })
         }
       >
-        <TrashIcon className="size-8 md:size-11"/>
+        <TrashIcon className="size-8 md:size-11 text-gray-200" />
       </SwipeAction>
     </TrailingActions>
   );
 
   return (
-    <SwipeableList >
+    <SwipeableList>
       <SwipeableListItem
         leadingActions={leadingActions()}
         trailingActions={trailingActions()}
         maxSwipe={0.6}
       >
-        <div className="bg-white hover:opacity-80 shadow-lg w-full p-5 md:p-10 border-b border-gray-200 mb-1.5 flex justify-between items-center   gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing rounded-lg">
+        <div className="bg-[#2a2a3a] hover:bg-[#38384f] transition-all shadow-lg w-full p-5 md:p-10 border-b border-gray-600 mb-1.5 flex justify-between items-center gap-5 min-[500px]:gap-10 flex-wrap min-[500px]:flex-nowrap select-none hover:cursor-grab active:cursor-grabbing rounded-lg">
           <div>
             <img
               className="w-16"
@@ -79,13 +79,15 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
           </div>
 
           <div className="space-y-1.5">
-            <p className="text-sm font-bold uppercase text-slate-500">
+            <p className="text-sm font-bold uppercase text-gray-300">
               {expense.expenseName}
             </p>
-            <p className="text-sm font-bold capitalize text-slate-400">
-              {categoryInfo?.name || "no category"}
+            <p className="text-sm font-bold capitalize text-gray-400">
+              {categoryInfo?.name || "No Category"}
             </p>
-            <p>{formatDate(expense.expenseDate!.toString())}</p>
+            <p className="text-gray-500">
+              {formatDate(expense.expenseDate!.toString())}
+            </p>
           </div>
 
           <div className="text-right">

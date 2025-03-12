@@ -24,24 +24,24 @@ export default function ExpenseList() {
     [existsCategoryFilter, budgetState.expenses, filterdExpenses]
   );
 
-    // activeExpenses empty?
-    const emptyExpenses = useMemo(
-      () => activeExpenses.length < 1,
-      [activeExpenses]
-    );
+  // activeExpenses empty?
+  const emptyExpenses = useMemo(
+    () => activeExpenses.length < 1,
+    [activeExpenses]
+  );
 
   return (
     <div className="mt-10">
       {emptyExpenses ? (
-        <p className=" text-gray-700 capitalize text-center py-32 bg-white shadow-lg rounded-lg mx-auto px-5 text-2xl">
-          no expenses
+        <p className="text-white capitalize text-center py-32 bg-[#2a2a3a] shadow-lg rounded-lg mx-auto px-5 text-2xl">
+          No Expenses
         </p>
       ) : (
         <>
-          <p className="text-gray-700 capitalize text-center text-2xl mb-10">
-            expense list
+          <p className="text-white capitalize text-center text-2xl mb-10">
+            Expense List
           </p>
-          <div className="bg-gray-100 p-10 px-3.5 md:px-5 rounded-lg shadow-xl max-h-[600px] overflow-y-auto">
+          <div className="bg-[#1e1e2e] p-10 px-3.5 md:px-5 rounded-lg shadow-xl max-h-[600px] overflow-y-auto">
             {activeExpenses.map((expense) => (
               <ExpenseDetail key={expense.id} expense={expense} />
             ))}

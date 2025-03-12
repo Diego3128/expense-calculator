@@ -32,3 +32,10 @@ export const calcExpenseTotal = (expenses: Expense[] = []): number => {
 export const calcPercentage = (value: number, whole: number): number => {
   return parseFloat(((value / whole) * 100).toFixed(3));
 };
+
+// Color logic based on percentage
+export const getColor = (percentage: number = 0): string => {
+  if (percentage > 90) return "#f43f5e"; // rose-500
+  if (percentage > 70) return "#fb923c"; // orange-400
+  return "#818cf8"; // indigo-400
+};

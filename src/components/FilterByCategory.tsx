@@ -9,10 +9,10 @@ export default function FilterByCategory() {
   } = useBudget();
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    if(e.target.value === ""){
+    if (e.target.value === "") {
       budgetDispatch({
         type: "set-category-filter",
-        payload: { categoryId: ""},
+        payload: { categoryId: "" },
       });
     }
     if (categories.some((category) => category.id === e.target.value)) {
@@ -24,20 +24,26 @@ export default function FilterByCategory() {
   };
 
   return (
-    <form className="text-gray-700 capitalize text-center p-3.5 bg-white shadow-lg rounded-lg mx-auto py-8 px-5 text-xl flex justify-center min-[500px]:justify-between gap-5 items-center flex-wrap ">
-      <label htmlFor="expenseCategoryId">Filter expenses</label>
+    <form className="text-white capitalize text-center p-4 bg-[#2a2a3a] shadow-lg rounded-lg mx-auto text-xl flex justify-center min-[500px]:justify-between gap-5 items-center flex-wrap">
+      <label htmlFor="expenseCategoryId" className="font-semibold">
+        Filter Expenses
+      </label>
       <select
         name="expenseCategoryId"
         id="expenseCategoryId"
-        className="p-2.5 bg-slate-100 capitalize outline-none border-b focus:bg-blue-100 border-blue-400 w-full min-[390px]:w-auto"
+        className="p-2.5 bg-[#1e1e2e] text-white capitalize outline-none border-b focus:bg-[#3b3b4f] border-blue-400 w-full min-[390px]:w-auto rounded-md"
         value={categoryFilter}
         onChange={handleChange}
       >
-        <option className="text-center capitalize" value="">
-          all categories
+        <option className="text-center capitalize bg-[#2a2a3a]" value="">
+          All Categories
         </option>
         {categories.map((category) => (
-          <option key={category.id} value={category.id}>
+          <option
+            key={category.id}
+            value={category.id}
+            className="bg-[#2a2a3a] text-white"
+          >
             {category.name}
           </option>
         ))}

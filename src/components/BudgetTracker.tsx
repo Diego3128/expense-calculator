@@ -1,11 +1,10 @@
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
 import { PencilIcon } from "@heroicons/react/24/solid";
-
 import { useBudget } from "../hooks/useBudget";
 import AmountDisplay from "./AmountDisplay";
 import { useMemo } from "react";
+import { getColor } from "../helpers";
 
 export default function BudgetTracker() {
   const {
@@ -19,28 +18,34 @@ export default function BudgetTracker() {
     [budget, expenses]
   );
 
+
+
   return (
-    <div className="px-8 md:px-10 py-10 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 space-y-7 bg-white shadow-lg rounded-lg mx-auto ">
-      <div className="flex justify-center items-center">
-        <CircularProgressbar
-          value={percentage}
-          text={`${percentage.toString()}%`}
-          styles={buildStyles({
-            pathTransitionDuration: 2,
-            textSize: "20px",
-            pathColor: percentage > 90 ? "#e60076" : "#2b7fff",
-            textColor: percentage > 90 ? "#e60076" : "#2b7fff",
-            trailColor: "#d3d8e0",
-          })}
-        />
+    <div className="px-2 md:pr-3 py-8 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-0 bg-gray-800 shadow-xl rounded-xl mx-auto border border-gray-700 transition-all duration-300">
+      <div className="flex justify-center items-center max-w-44 mx-auto ">
+        <div className="w-full max-w-xs">
+          <CircularProgressbar
+            value={percentage}
+            text={`${percentage.toString()}%`}
+            styles={buildStyles({
+              pathTransitionDuration: 3,
+              textSize: "20px",
+              pathColor: getColor(),
+              textColor: getColor(),
+              trailColor: "#374151", // gray-700
+              backgroundColor: "#1f2937", // gray-800
+            })}
+            className="drop-shadow-lg"
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col gap-8 items-center justify-around ">
-        <div className="flex justify-between gap-3.5">
+      <div className="flex flex-col gap-6 items-center justify-around">
+        <div className="flex justify-between gap-4 w-full">
           <button
             onClick={() => budgetDispatch({ type: "reset-app" })}
             type="button"
-            className="bg-pink-600 w-full p-2.5 text-white capitalize text-center font-bold rounded-lg hover:bg-pink-700  cursor-pointer"
+            className="bg-rose-600 hover:bg-rose-700 w-full p-3 text-white capitalize text-center font-bold rounded-lg transition-all duration-300 shadow-lg transform hover:scale-105 hover:cursor-pointer"
           >
             Reset App
           </button>
@@ -51,18 +56,39 @@ export default function BudgetTracker() {
                 payload: { previousBudget: budget },
               })
             }
-            className="flex justify-around gap-1.5 items-center rounded-lg border-2 border-blue-500 p-2 hover:bg-blue-200 hover:cursor-pointer"
+            className="flex justify-center gap-2 items-center rounded-lg border-2 border-indigo-500 p-3 hover:bg-indigo-600/20 hover:cursor-pointer transition-all duration-300 transform hover:scale-105"
           >
-            <span className="font-bold">Edit budget</span>
-            <PencilIcon className="size-8 md:size-10 text-blue-500" />
+            <span className="font-bold text-indigo-400">Edit budget</span>
+            <PencilIcon className="h-6 w-6 text-indigo-400" />
           </button>
         </div>
 
-        <AmountDisplay label="budget" amount={budget} />
+        <div className="w-full space-y-4 bg-gray-900/60 py-5 px-2 rounded-lg border border-gray-700">
+          <AmountDisplay
+            label="Budget"
+            amount={budget}
+            labelColor="text-indigo-400"
+            amountColor="text-gray-200"
+          />
 
-        <AmountDisplay label="spent" amount={spentBudget} />
+          <div className="w-full h-px bg-gray-700"></div>
 
-        <AmountDisplay label="available" amount={availableBudget} />
+          <AmountDisplay
+            label="Spent"
+            amount={spentBudget}
+            labelColor="text-rose-400"
+            amountColor="text-gray-200"
+          />
+
+          <div className="w-full h-px bg-gray-700"></div>
+
+          <AmountDisplay
+            label="Available"
+            amount={availableBudget}
+            labelColor="text-emerald-400"
+            amountColor="text-gray-200"
+          />
+        </div>
       </div>
     </div>
   );
