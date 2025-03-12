@@ -18,34 +18,35 @@ export default function BudgetTracker() {
     [budget, expenses]
   );
 
-
-
   return (
-    <div className="px-2 md:pr-3 py-8 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-0 bg-gray-800 shadow-xl rounded-xl mx-auto border border-gray-700 transition-all duration-300">
-      <div className="flex justify-center items-center max-w-44 mx-auto ">
-        <div className="w-full max-w-xs">
-          <CircularProgressbar
-            value={percentage}
-            text={`${percentage.toString()}%`}
-            styles={buildStyles({
-              pathTransitionDuration: 3,
-              textSize: "20px",
-              pathColor: getColor(),
-              textColor: getColor(),
-              trailColor: "#374151", // gray-700
-              backgroundColor: "#1f2937", // gray-800
-            })}
-            className="drop-shadow-lg"
-          />
+    <div className="px-2 md:pr-3 py-8 flex flex-col gap-10 bg-gray-800 shadow-xl rounded-xl mx-auto border border-gray-700 transition-all duration-300 w-full">
+      {/* progress bar and buttons */}
+      <div className="flex flex-col gap-6 md:flex-row md:justify-evenly">
+        {/* progress bar */}
+        <div className="flex justify-center items-center max-w-[230px] mx-auto md:mx-0 ">
+          <div className="w-full max-w-xs">
+            <CircularProgressbar
+              value={percentage}
+              text={`${percentage.toString()}%`}
+              styles={buildStyles({
+                pathTransitionDuration: 3,
+                textSize: "20px",
+                pathColor: getColor(),
+                textColor: getColor(),
+                trailColor: "#374151", // gray-700
+                backgroundColor: "#1f2937", // gray-800
+              })}
+              className="drop-shadow-lg"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-6 items-center justify-around">
-        <div className="flex justify-between gap-4 w-full">
+        {/* buttons */}
+        <div className="flex gap-5 justify-around md:flex-col">
           <button
             onClick={() => budgetDispatch({ type: "reset-app" })}
             type="button"
-            className="bg-rose-600 hover:bg-rose-700 w-full p-3 text-white capitalize text-center font-bold rounded-lg transition-all duration-300 shadow-lg transform hover:scale-105 hover:cursor-pointer"
+            className="bg-rose-600 hover:bg-rose-700 p-3 text-white capitalize text-center font-bold rounded-lg transition-all duration-300 shadow-lg transform hover:scale-105 hover:cursor-pointer"
           >
             Reset App
           </button>
@@ -62,7 +63,10 @@ export default function BudgetTracker() {
             <PencilIcon className="h-6 w-6 text-indigo-400" />
           </button>
         </div>
+      </div>
 
+      {/* amount display */}
+      <div className="flex flex-col gap-6 items-center justify-around md: lg:w-4/5 lg:mx-auto">
         <div className="w-full space-y-4 bg-gray-900/60 py-5 px-2 rounded-lg border border-gray-700">
           <AmountDisplay
             label="Budget"
